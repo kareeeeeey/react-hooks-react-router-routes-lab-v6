@@ -1,30 +1,30 @@
-import React, { useEffect, useState } from "react";
-import NavBar from "../components/NavBar";
+import { useEffect, useState } from "react";
 
 const Actors = () => {
   const [actors, setActors] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/actors")
-      .then((res) => res.json())
-      .then((data) => setActors(data));
+    // Fetch actors from the JSON server
+    fetch("http://localhost:4000/actors")
+      .then((response) => response.json())
+      .then((data) => setActors(data))
+      .catch((error) => console.error("Error fetching actors:", error));
   }, []);
 
   return (
-    <>
-      <NavBar />
+    <div>
       <h1>Actors Page</h1>
-      {actors.map((actor, idx) => (
-        <article key={idx}>
+      {actors.map((actor) => (
+        <article key={actor.id}>
           <h2>{actor.name}</h2>
           <ul>
-            {actor.movies.map((movie, i) => (
-              <li key={i}>{movie}</li>
+            {actor.movies.map((movie, index) => (
+              <li key={index}>{movie}</li>
             ))}
           </ul>
         </article>
       ))}
-    </>
+    </div>
   );
 };
 
